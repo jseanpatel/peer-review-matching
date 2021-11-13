@@ -13,6 +13,12 @@ export default function Home() {
     console.log(email);
   }, [email]);
 
+  const clearInputs = () => {
+    setEmail("")
+    setUnitTopic("")
+    setSessionLink("")
+  }
+
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
     console.log("name is: " + value);
@@ -157,7 +163,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-end w-full">
-            <button className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-50">
+            <button className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-50" onClick={() => clearInputs()}>
               Clear
             </button>
             <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
