@@ -43,12 +43,25 @@ let submissions = [
     email: "teststudent7@schoolhouse.world",
     session: "loom.com/g"
   }
-
 ]
 
-export default function videoSubmission(req, res) {
-  const {email, unitTopic, sessionLink } = req.body
-  res.status(200).json({ submissions })
+let submissionsByTopic = []
+let submissionPairings = []
+
+export default function handler(req, res) {
+  if (req.method === 'POST') {
+
+    const {email, unitTopic, sessionLink } = req.body
+
+
+    res.status(200).json({ submissions })
+
+  } else if (req.method === 'GET') {
+    // Handle any other HTTP method
+  } else {
+    // TODO: add request handling
+  }
 }
+
 
 

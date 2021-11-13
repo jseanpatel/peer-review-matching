@@ -60,22 +60,39 @@ export default function Home() {
       <Head>
         <title>Free Online Tutoring — Schoolhouse</title>
         <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="preload"
-          href="/fonts/MuseoSansRounded"
-          as="font"
-          crossOrigin=""
-        />
+        <meta
+          name="description"
+          content="Schoolhouse.world is a free tutoring platform on which anyone can receive live help online. Founded by Sal Khan. Join our welcoming community!"
+        ></meta>
+        <meta
+          property="og:description"
+          content="Schoolhouse.world is a free tutoring platform on which anyone can receive live help online. Founded by Sal Khan. Join our welcoming community!"
+        ></meta>
+        <meta
+          name="twitter:description"
+          content="Schoolhouse.world is a free tutoring platform on which anyone can receive live help online. Founded by Sal Khan. Join our welcoming community!"
+        ></meta>
       </Head>
       <Navbar> </Navbar>
-      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-20 pb-32 mx-auto text-left ">
+      
+      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-20 pb-32 mx-auto overflow-x-hidden text-left md:overflow-x-visible ">
+      <img
+              src={"blob-1.svg"}
+              alt="Submission was successful"
+              className="absolute top-0 z-0 rotate-90 -left-24 top-36 w-96 h-96"
+            />
+      <img
+              src={"blob-1.svg"}
+              alt="Submission was successful"
+              className="absolute z-0 rotate-180 top-96 -right-24 w-96 h-96"
+            />
         {!submitted ? (
           <>
-            <h1 className="pt-24 text-3xl font-normal text-start">
-              Thank you for completing your exam
+            <h1 className="z-10 text-3xl font-normal pt-28 text-start">
+              Thank you for completing your recording
             </h1>
 
-            <h2 className="mt-3 text-xl">
+            <h2 className="z-10 mt-3 text-xl">
               In order to finalize your submission for certification, please
               complete the following form with your unit topic, email, and
               session link (either Loom or another service), and press submit.
@@ -92,7 +109,7 @@ export default function Home() {
               Your submission was recieved!
             </h1>
 
-            <h2 className="mt-3 text-xl">
+            <h2 className="z-10 mt-3 text-xl">
               As the final step in the certification process, we’d like to ask
               you to review the submission of one other candidate. Please see
               your candidate assignment below.
@@ -101,7 +118,7 @@ export default function Home() {
         )}
 
         <form
-          className="w-full max-w-5xl p-10 mt-10 border border-4 border-gray-300 rounded rounded-lg"
+          className="z-10 w-full max-w-5xl p-10 mt-10 bg-white border border-4 border-gray-300 rounded rounded-lg"
           onSubmit={submitForm}
         >
           <div className="flex flex-wrap mb-6 -mx-3">
@@ -163,19 +180,35 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-end w-full">
-            <button
-              type="button"
-              className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
-              onClick={() => clearInputs()}
-            >
-              Clear
-            </button>
-            <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
-              Submit
-            </button>
+            {!submitted ? (
+              <>
+                <button
+                  type="button"
+                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+                  onClick={() => clearInputs()}
+                >
+                  Clear
+                </button>
+                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+                  Submit
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+                >
+                  Email me
+                </button>
+                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+                  Open Loom
+                </button>{" "}
+              </>
+            )}
           </div>
         </form>
-        <div className="w-full h-[0.15rem] mt-16 bg-gray-200"></div>
+        <div className="w-full h-[0.15rem] z-10 mt-16 bg-gray-200"></div>
         <div className="flex flex-row items-center mt-3">
           <h1 className="font-normal text-gray-500 text-md text-start ">
             Advanced
@@ -183,7 +216,9 @@ export default function Home() {
           <button onClick={() => setShowAdvanced(!showAdvanced)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={"w-4 h-4 ml-2 text-gray-500 " + (showAdvanced && "-rotate-90" )}
+              className={
+                "w-4 h-4 ml-2 text-gray-500 " + (!showAdvanced && "-rotate-90")
+              }
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -205,6 +240,7 @@ export default function Home() {
             ordinarily be available to the candidate.
           </h2>
         )}
+        
       </main>
     </div>
   );
