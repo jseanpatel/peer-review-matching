@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [submitted, setSubmitted] = useState();
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [email, setEmail] = useState("");
   const [unitTopic, setUnitTopic] = useState("");
   const [sessionLink, setSessionLink] = useState("");
@@ -14,14 +15,13 @@ export default function Home() {
   }, [email]);
 
   const clearInputs = () => {
-    setEmail("")
-    setUnitTopic("")
-    setSessionLink("")
-  }
+    setEmail("");
+    setUnitTopic("");
+    setSessionLink("");
+  };
 
   const onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
-    console.log("name is: " + value);
 
     if (name === "email") {
       setEmail(value);
@@ -39,7 +39,7 @@ export default function Home() {
     console.log("unitTopic is " + unitTopic);
     console.log("sessionLink is " + sessionLink);
 
-    fetch("/api/hello", {
+    fetch("/api/videoSubmission", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -51,7 +51,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        setSubmitted(true)
+        setSubmitted(true);
       });
   };
 
@@ -83,12 +83,12 @@ export default function Home() {
           </>
         ) : (
           <>
-           <img
-                  src={"success.svg"}
-                  alt="Submission was successful"
-                  className="w-16 h-16 mx-auto mt-8"
-                />
-            <h1 className="mt-3 text-3xl font-normal text-start">
+            <img
+              src={"success.svg"}
+              alt="Submission was successful"
+              className="w-16 h-16 mx-auto mt-8"
+            />
+            <h1 className="mt-3 text-3xl font-normal text-left">
               Your submission was recieved!
             </h1>
 
@@ -163,7 +163,11 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-end w-full">
-            <button className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-50" onClick={() => clearInputs()}>
+            <button
+              type="button"
+              className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+              onClick={() => clearInputs()}
+            >
               Clear
             </button>
             <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
@@ -171,7 +175,36 @@ export default function Home() {
             </button>
           </div>
         </form>
-        <div className="w-full h-[0.15rem] my-16 bg-gray-200"></div>
+        <div className="w-full h-[0.15rem] mt-16 bg-gray-200"></div>
+        <div className="flex flex-row items-center mt-3">
+          <h1 className="font-normal text-gray-500 text-md text-start ">
+            Advanced
+          </h1>
+          <button onClick={() => setShowAdvanced(!showAdvanced)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={"w-4 h-4 ml-2 text-gray-500 " + (showAdvanced && "-rotate-90" )}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+        </div>
+        {showAdvanced && (
+          <h2 className="mt-3 text-gray-500 text-md">
+            This application was architected to optimize the user experience for
+            the candidate. In order to capture the complete functionality of the
+            application, advanced options are available below that would not
+            ordinarily be available to the candidate.
+          </h2>
+        )}
       </main>
     </div>
   );
