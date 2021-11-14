@@ -110,8 +110,6 @@ let sortedSubmissions = {
   ],
 };
 
-let submissionPairings = [];
-
 export default function handler(req, res) {
   if (req.method === "POST") {
     const { email, unitTopic, sessionLink } = req.body;
@@ -121,11 +119,14 @@ export default function handler(req, res) {
     const reqSubmission = {
       uid: reqUID,
       email: email,
-      topic: unitTopic,
+      unitTopic: unitTopic,
       sessionLink: sessionLink,
     };
 
+    submissions.push(reqSubmission)
+
     const reqUnitTopic = unitTopic;
+   
 
     // add new subject property if subject does not exist
     if (!sortedSubmissions[reqUnitTopic]) {

@@ -11,9 +11,8 @@ export default function Home() {
   const [sessionLink, setSessionLink] = useState("");
   const [submissions, setSubmissions] = useState({});
 
-  useEffect(() => {
-    console.log(submissions);
-  }, [submissions]);
+  let partnerLink = "";
+  let rows = [];
 
   const clearInputs = () => {
     setEmail("");
@@ -41,8 +40,6 @@ export default function Home() {
       .then((res) => res.json())
       .then((res) => {
         setSubmissions(res.submissions);
-        // this should also call getBuddies
-        // look for your buddy
       });
   };
 
@@ -63,15 +60,12 @@ export default function Home() {
         console.log(res);
         setSubmissions(res.submissions);
         setSubmitted(true);
-        // this should also call getBuddies
-        // look for your buddy
+        getSubmissions();
       });
+      clearInputs()
   };
 
-  let rows = [];
-
   if (submissions) {
-    let firstSubjectSubmission = submissions[0];
     let start = 0;
     for (let i = 0; i < submissions.length - 1; i += 1) {
       if (submissions[i].unitTopic != submissions[i + 1].unitTopic) {
@@ -124,6 +118,17 @@ export default function Home() {
           </tr>
         );
       }
+      if (
+        submissions[i].email === email &&
+        submissions[i].unitTopic === unitTopic &&
+        submissions[i].sessionLink === sessionLink
+      ) {
+        if (submissions[i + 1].unitTopic == unitTopic) {
+          partnerLink = submissions[i + 1].sessionLink;
+        } else if (start != i) {
+          partnerLink = submissions[start].sessionLink;
+        }
+      }
     }
   }
 
@@ -151,7 +156,7 @@ export default function Home() {
       </Head>
       <Navbar> </Navbar>
 
-      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-20 pb-32 mx-auto overflow-x-hidden text-left md:overflow-x-visible ">
+      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left md:px-20 md:overflow-x-visible ">
         <img
           src={"blob-1.svg"}
           alt="Submission was successful"
@@ -188,20 +193,27 @@ export default function Home() {
 
             <h2 className="z-10 mt-3 text-xl">
               As the final step in the certification process, we’d like to ask
-              you to review the submission of one other candidate. Please see
-              your candidate assignment below.
+              you to review the submission of one other candidate.{" "}
+              {partnerLink === "" ? (
+                <>Unfortunately, no submission is currently available for you to
+                review. We will contact you soon with your assignment.</>
+              ) : (
+                <>
+                  {" "}
+                  Please access your candidate assignment below.
+                </>
+              )}
             </h2>
           </>
         )}
-
-        <form
-          className="z-10 w-full max-w-5xl p-10 mt-10 bg-white border border-4 border-gray-300 rounded rounded-lg"
-          onSubmit={submitForm}
-        >
-          {!submitted ? (
+        {!submitted && (
+          <form
+            className="z-10 w-full max-w-5xl p-10 mt-10 bg-white border border-4 border-gray-300 rounded rounded-lg"
+            onSubmit={submitForm}
+          >
             <>
               <div className="flex flex-wrap mb-6 -mx-3">
-                <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
+                <div className="w-full px-3 md:w-1/2 md:mb-0">
                   <label
                     className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
                     htmlFor="grid-unit-topic"
@@ -256,40 +268,36 @@ export default function Home() {
                 </div>
               </div>{" "}
             </>
-          ) : (
-            <> </>
-          )}
-          <div className="flex justify-end w-full">
-            {!submitted ? (
-              <>
-                <button
-                  type="button"
-                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
-                  onClick={() => clearInputs()}
-                >
-                  Clear
-                </button>
-                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
-                  Submit
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
-                >
-                  Email me
-                </button>
-                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
-                  <a href={"#"}> Open Link </a>
-                </button>{" "}
-              </>
-            )}
+
+            <div className="flex justify-end w-full">
+              <button
+                type="button"
+                className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
+                onClick={() => clearInputs()}
+              >
+                Clear
+              </button>
+              <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
+        {(submitted && partnerLink) && (
+          <div className="z-10 flex flex-row justify-center mx-4 mt-10">
+            <button
+              type="button"
+              className="justify-end w-48 px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+            >
+              <a href={"#email-me"}>Email me</a>
+            </button>
+            <button className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+              <a href={partnerLink}> Open Link </a>
+            </button>{" "}
           </div>
-        </form>
+        )}
         <div className="w-full h-[0.15rem] z-10 mt-16 bg-gray-200"></div>
-        <div className="flex flex-row items-center mt-3">
+        <div className="z-10 flex flex-row items-center mt-3">
           <h1 className="z-10 font-normal text-gray-500 text-md text-start ">
             Advanced
           </h1>
@@ -371,7 +379,7 @@ export default function Home() {
               onSubmit={submitForm}
             >
               <div className="flex flex-wrap mb-6 -mx-3">
-                <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
+                <div className="w-full px-3 md:w-1/2 md:mb-0">
                   <label
                     className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
                     htmlFor="grid-unit-topic"
@@ -379,7 +387,7 @@ export default function Home() {
                     Unit Topic:
                   </label>
                   <input
-                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-red-500 rounded appearance-none focus:outline-none focus:bg-white"
+                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-unit-topic"
                     name="unitTopic"
                     type="text"
@@ -387,9 +395,6 @@ export default function Home() {
                     placeholder="Algebra"
                     value={unitTopic}
                   />
-                  <p className="text-xs italic text-red-500">
-                    Please fill out this field.
-                  </p>
                 </div>
                 <div className="w-full px-3 md:w-1/2">
                   <label
