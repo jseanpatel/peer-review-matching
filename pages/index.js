@@ -57,12 +57,10 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setSubmissions(res.submissions);
         setSubmitted(true);
         getSubmissions();
       });
-      clearInputs()
   };
 
   if (submissions) {
