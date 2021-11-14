@@ -5,14 +5,15 @@ import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [submitted, setSubmitted] = useState();
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(true);
   const [email, setEmail] = useState("");
   const [unitTopic, setUnitTopic] = useState("");
   const [sessionLink, setSessionLink] = useState("");
+  const [submissions, setSubmissions] = useState({});
 
   useEffect(() => {
-    console.log(email);
-  }, [email]);
+    console.log(submissions);
+  }, [submissions]);
 
   const clearInputs = () => {
     setEmail("");
@@ -32,14 +33,23 @@ export default function Home() {
     }
   };
 
+  const getSubmissions = () => {
+    fetch("/api/submissions", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setSubmissions(res.submissions);
+        // this should also call getBuddies
+        // look for your buddy
+      });
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
 
-    console.log("email is " + email);
-    console.log("unitTopic is " + unitTopic);
-    console.log("sessionLink is " + sessionLink);
-
-    fetch("/api/videoSubmission", {
+    fetch("/api/submissions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -51,9 +61,75 @@ export default function Home() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
+        setSubmissions(res.submissions);
         setSubmitted(true);
+        // this should also call getBuddies
+        // look for your buddy
       });
   };
+
+  let rows = [];
+
+  if (submissions) {
+    let firstSubjectSubmission = submissions[0];
+    let start = 0;
+    for (let i = 0; i < submissions.length - 1; i += 1) {
+      if (submissions[i].unitTopic != submissions[i + 1].unitTopic) {
+        rows.push(
+          <tr key={submissions[i].uid}>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {submissions[i].email}
+            </td>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {i == start ? "N/A" : submissions[start].email}
+            </td>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {submissions[i].unitTopic}
+            </td>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {i == start ? (
+                "N/A"
+              ) : (
+                <a href={submissions[start].sessionLink}>
+                  <span className="text-base underline">
+                    {submissions[start].sessionLink}
+                  </span>
+                </a>
+              )}
+            </td>
+          </tr>
+        );
+
+        start = i + 1;
+      } else {
+        rows.push(
+          <tr key={submissions[i].uid}>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {submissions[i].email}
+            </td>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {submissions[i + 1].email}
+            </td>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              {submissions[i].unitTopic}
+            </td>
+            <td className="px-6 py-4 text-gray-700 whitespace-nowrap">
+              <a href={submissions[i + 1].sessionLink}>
+                <span className="text-base underline">
+                  {" "}
+                  {submissions[i + 1].sessionLink}
+                </span>
+              </a>
+            </td>
+          </tr>
+        );
+      }
+    }
+  }
+
+  useEffect(() => {
+    setSubmissions(getSubmissions());
+  }, []);
 
   return (
     <div className="flex flex-col justify-center min-h-screen">
@@ -74,18 +150,19 @@ export default function Home() {
         ></meta>
       </Head>
       <Navbar> </Navbar>
-      
+
       <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-20 pb-32 mx-auto overflow-x-hidden text-left md:overflow-x-visible ">
-      <img
-              src={"blob-1.svg"}
-              alt="Submission was successful"
-              className="absolute top-0 z-0 rotate-90 -left-24 top-36 w-96 h-96"
-            />
-      <img
-              src={"blob-1.svg"}
-              alt="Submission was successful"
-              className="absolute z-0 rotate-180 top-96 -right-24 w-96 h-96"
-            />
+        <img
+          src={"blob-1.svg"}
+          alt="Submission was successful"
+          className="absolute top-0 z-0 rotate-90 -left-24 top-32 w-96 h-96"
+        />
+        <img
+          src={"blob-1.svg"}
+          alt="Submission  was successful"
+          className="absolute z-0 rotate-180 top-96 -right-24 w-96 h-96"
+        />
+        {/* {sortedSubmissions !== "" && <div className="w-64 h-48 bg-black"></div>} */}
         {!submitted ? (
           <>
             <h1 className="z-10 text-3xl font-normal pt-28 text-start">
@@ -105,7 +182,7 @@ export default function Home() {
               alt="Submission was successful"
               className="w-16 h-16 mx-auto mt-8"
             />
-            <h1 className="mt-3 text-3xl font-normal text-left">
+            <h1 className="z-10 mt-3 text-3xl font-normal text-left">
               Your submission was recieved!
             </h1>
 
@@ -121,70 +198,73 @@ export default function Home() {
           className="z-10 w-full max-w-5xl p-10 mt-10 bg-white border border-4 border-gray-300 rounded rounded-lg"
           onSubmit={submitForm}
         >
-          <div className="flex flex-wrap mb-6 -mx-3">
-            <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
-              <label
-                className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
-                for="grid-unit-topic"
-              >
-                Unit Topic:
-              </label>
-              <input
-                className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-red-500 rounded appearance-none focus:outline-none focus:bg-white"
-                id="grid-unit-topic"
-                name="unitTopic"
-                type="text"
-                onChange={(event) => onChangeHandler(event)}
-                placeholder="Algebra"
-                value={unitTopic}
-              />
-              <p className="text-xs italic text-red-500">
-                Please fill out this field.
-              </p>
-            </div>
-            <div className="w-full px-3 md:w-1/2">
-              <label
-                className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
-                for="grid-email"
-              >
-                Email:
-              </label>
-              <input
-                className="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-email"
-                onChange={(event) => onChangeHandler(event)}
-                value={email}
-                name="email"
-                type="text"
-                placeholder="sal@schoolhouse.world"
-              />
-            </div>
-          </div>
-          <div className="flex flex-wrap mb-6 -mx-3">
-            <div className="w-full px-3">
-              <label
-                className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
-                for="grid-session-link"
-              >
-                Session Link:
-              </label>
-              <input
-                className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-session-link"
-                type="url"
-                value={sessionLink}
-                onChange={(event) => onChangeHandler(event)}
-                name="sessionLink"
-                placeholder="https://loom.com/a"
-              />
-            </div>
-          </div>
+          {!submitted ? (
+            <>
+              <div className="flex flex-wrap mb-6 -mx-3">
+                <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
+                  <label
+                    className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
+                    htmlFor="grid-unit-topic"
+                  >
+                    Unit Topic:
+                  </label>
+                  <input
+                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-unit-topic"
+                    name="unitTopic"
+                    type="text"
+                    onChange={(event) => onChangeHandler(event)}
+                    placeholder="Algebra"
+                    value={unitTopic}
+                  />
+                </div>
+                <div className="w-full px-3 md:w-1/2">
+                  <label
+                    className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
+                    htmlFor="grid-email"
+                  >
+                    Email:
+                  </label>
+                  <input
+                    className="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-email"
+                    onChange={(event) => onChangeHandler(event)}
+                    value={email}
+                    name="email"
+                    type="text"
+                    placeholder="sal@schoolhouse.world"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-6 -mx-3">
+                <div className="w-full px-3">
+                  <label
+                    className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
+                    htmlFor="grid-session-link"
+                  >
+                    Session Link:
+                  </label>
+                  <input
+                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-session-link"
+                    type="url"
+                    value={sessionLink}
+                    onChange={(event) => onChangeHandler(event)}
+                    name="sessionLink"
+                    placeholder="https://loom.com/a"
+                  />
+                </div>
+              </div>{" "}
+            </>
+          ) : (
+            <> </>
+          )}
           <div className="flex justify-end w-full">
             {!submitted ? (
               <>
                 <button
                   type="button"
-                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
                   onClick={() => clearInputs()}
                 >
                   Clear
@@ -202,7 +282,7 @@ export default function Home() {
                   Email me
                 </button>
                 <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
-                  Open Loom
+                  <a href={"#"}> Open Link </a>
                 </button>{" "}
               </>
             )}
@@ -210,7 +290,7 @@ export default function Home() {
         </form>
         <div className="w-full h-[0.15rem] z-10 mt-16 bg-gray-200"></div>
         <div className="flex flex-row items-center mt-3">
-          <h1 className="font-normal text-gray-500 text-md text-start ">
+          <h1 className="z-10 font-normal text-gray-500 text-md text-start ">
             Advanced
           </h1>
           <button onClick={() => setShowAdvanced(!showAdvanced)}>
@@ -233,14 +313,136 @@ export default function Home() {
           </button>
         </div>
         {showAdvanced && (
-          <h2 className="mt-3 text-gray-500 text-md">
-            This application was architected to optimize the user experience for
-            the candidate. In order to capture the complete functionality of the
-            application, advanced options are available below that would not
-            ordinarily be available to the candidate.
-          </h2>
+          <>
+            <h2 className="z-10 mt-3 text-gray-500 text-md">
+              This application was architected to optimize the user experience
+              for the candidate. In order to capture the complete functionality
+              of the application, advanced options are available below that
+              would not ordinarily be available to the candidate.
+            </h2>
+
+            <div className="z-10 flex flex-col mt-8 border-4 border-gray-300 rounded rounded-lg">
+              <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <div className="overflow-hidden border-gray-200 sm:rounded-lg">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-white">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                          >
+                            Reviewer:
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                          >
+                            Reviewee:
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                          >
+                            Subject:
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                          >
+                            <span className="hidden md:block">
+                              {" "}
+                              Session Link:{" "}
+                            </span>
+                            <span className="block md:hidden"> Link: </span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {rows}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form
+              className="z-10 w-full max-w-5xl p-10 mt-10 bg-white border border-4 border-gray-300 rounded rounded-lg"
+              onSubmit={submitForm}
+            >
+              <div className="flex flex-wrap mb-6 -mx-3">
+                <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
+                  <label
+                    className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
+                    htmlFor="grid-unit-topic"
+                  >
+                    Unit Topic:
+                  </label>
+                  <input
+                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-red-500 rounded appearance-none focus:outline-none focus:bg-white"
+                    id="grid-unit-topic"
+                    name="unitTopic"
+                    type="text"
+                    onChange={(event) => onChangeHandler(event)}
+                    placeholder="Algebra"
+                    value={unitTopic}
+                  />
+                  <p className="text-xs italic text-red-500">
+                    Please fill out this field.
+                  </p>
+                </div>
+                <div className="w-full px-3 md:w-1/2">
+                  <label
+                    className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
+                    htmlFor="grid-email"
+                  >
+                    Email:
+                  </label>
+                  <input
+                    className="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-email"
+                    onChange={(event) => onChangeHandler(event)}
+                    value={email}
+                    name="email"
+                    type="text"
+                    placeholder="sal@schoolhouse.world"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-6 -mx-3">
+                <div className="w-full px-3">
+                  <label
+                    className="block mb-2 text-xl font-semibold tracking-wide text-gray-700"
+                    htmlFor="grid-session-link"
+                  >
+                    Session Link:
+                  </label>
+                  <input
+                    className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-session-link"
+                    type="url"
+                    value={sessionLink}
+                    onChange={(event) => onChangeHandler(event)}
+                    name="sessionLink"
+                    placeholder="https://loom.com/a"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end w-full">
+                <button
+                  type="button"
+                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+                  onClick={() => clearInputs()}
+                >
+                  Clear
+                </button>
+                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </>
         )}
-        
       </main>
     </div>
   );
