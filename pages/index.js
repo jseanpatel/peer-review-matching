@@ -3,6 +3,9 @@ import Head from "next/head";
 
 import Navbar from "../components/Navbar";
 
+
+import Navbar from '../components/Navbar'
+
 export default function Home() {
   const [submitted, setSubmitted] = useState();
   const [showAdvanced, setShowAdvanced] = useState(true);
@@ -153,7 +156,6 @@ export default function Home() {
         ></meta>
       </Head>
       <Navbar> </Navbar>
-
       <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left md:px-20 md:overflow-x-visible ">
         <img
           src={"blob-1.svg"}
