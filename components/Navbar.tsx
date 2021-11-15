@@ -70,9 +70,10 @@ const Navbar = ({  }: Props) => {
 
                   <a className="py-2 pl-4 pr-1 font-semibold leading-5 text-gray-600 transition duration-150 ease-in-out rounded-full text-md hover:text-base focus:outline-none ">
                     Explore
+                    
                   </a>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-600 transition duration-150 ease-in-out" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
 </svg>
 
                   </div>
@@ -118,7 +119,7 @@ const Navbar = ({  }: Props) => {
 
           
           <Link href="#sign-up">
-                  <a className="py-3 ml-auto font-semibold text-white transition duration-150 ease-in-out rounded rounded-lg px-7 text-md bg-base focus:outline-none hover:bg-blue-600 focus:bg-blue-600">
+                  <a className="px-8 py-3 ml-auto font-semibold text-white transition duration-150 ease-in-out rounded rounded-lg text-md bg-base focus:outline-none hover:bg-blue-600 focus:bg-blue-600">
                     {" "}
                     Sign Up
                   </a>
