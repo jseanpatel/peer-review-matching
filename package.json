@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@tailwindcss/jit": "^0.1.18",
@@ -17,6 +18,7 @@
     "@types/node": "^16.11.7",
     "@types/react": "^17.0.34",
     "autoprefixer": "^10.2.6",
+    "cypress": "^9.0.0",
     "husky": "^7.0.4",
     "postcss": "^8.3.5",
     "tailwindcss": "^2.2.19"
