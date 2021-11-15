@@ -23,7 +23,6 @@ At schoolhouse.world, candidate tutors are required to submit screencasts of the
 * Vercel
 * TailwindCSS
 
-
 ## Deployment
 
 To deploy locally, clone this repository and run the following commands inside the project folder:

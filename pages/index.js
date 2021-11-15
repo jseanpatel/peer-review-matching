@@ -138,7 +138,7 @@ export default function Home() {
     <div className="flex flex-col justify-center min-h-screen ">
       <Head>
         <title>Free Online Tutoring — Schoolhouse</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon.ico" />
         <meta
           name="description"
           content="Schoolhouse.world is a free tutoring platform on which anyone can receive live help online. Founded by Sal Khan. Join our welcoming community!"
