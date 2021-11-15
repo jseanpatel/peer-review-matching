@@ -271,10 +271,11 @@ export default function Home() {
                 type="button"
                 className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
                 onClick={() => clearInputs()}
+                aria-label="clear inputs"
               >
                 Clear
               </button>
-              <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+              <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="submit">
                 Submit
               </button>
             </div>
@@ -285,10 +286,11 @@ export default function Home() {
             <button
               type="button"
               className="justify-end w-48 px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+              aria-label="email me"
             >
               <a href={"#email-me"}>Email me</a>
             </button>
-            <button className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+            <button className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="open link">
               <a href={partnerLink}> Open Link </a>
             </button>{" "}
           </div>
@@ -298,7 +300,7 @@ export default function Home() {
           <h1 className="z-10 font-normal text-gray-500 text-md text-start ">
             Advanced
           </h1>
-          <button onClick={() => setShowAdvanced(!showAdvanced)}>
+          <button onClick={() => setShowAdvanced(!showAdvanced)} aria-label="show advanced">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={
@@ -355,7 +357,7 @@ export default function Home() {
                             scope="col"
                             className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
-                            Link
+                            Link:
                           </th>
                         </tr>
                       </thead>
@@ -430,11 +432,13 @@ export default function Home() {
                 <button
                   type="button"
                   className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
-                  onClick={() => clearInputs()}
+                  onClick={() => clearInputs()
+                  }
+                  aria-label="clear inputs"
                 >
                   Clear
                 </button>
-                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="submit">
                   Submit
                 </button>
               </div>
