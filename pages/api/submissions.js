@@ -49,7 +49,6 @@ let submissions = [
   },
 ];
 
-// use even and odd for the pairings
 let sortedSubmissions = {
   Algebra: [
     {
@@ -123,11 +122,10 @@ export default function handler(req, res) {
     };
 
     submissions.push(reqSubmission)
-
     const reqUnitTopic = unitTopic;
    
 
-    // add new subject property if subject does not exist
+    // add new subject property to sortedSubmissions if subject does not exist
     if (!sortedSubmissions[reqUnitTopic]) {
       sortedSubmissions[reqUnitTopic] = [];
       sortedSubmissions[reqUID] = reqUID;

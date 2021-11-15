@@ -1,7 +1,6 @@
 # Peer Review Submission
 *Submission for schoolhouse.world*
 
-
 ## Table of Contents
 - [Description](#description)
 - [Technologies](#technologies)
