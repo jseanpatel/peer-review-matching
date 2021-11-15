@@ -3,9 +3,6 @@ import Head from "next/head";
 
 import Navbar from "../components/Navbar";
 
-
-import Navbar from '../components/Navbar'
-
 export default function Home() {
   const [submitted, setSubmitted] = useState();
   const [showAdvanced, setShowAdvanced] = useState(true);
@@ -138,7 +135,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center min-h-screen">
+    <div className="flex flex-col justify-center min-h-screen ">
       <Head>
         <title>Free Online Tutoring — Schoolhouse</title>
         <link rel="icon" href="/favicon.ico" />
@@ -156,7 +153,7 @@ export default function Home() {
         ></meta>
       </Head>
       <Navbar> </Navbar>
-      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left md:px-20 md:overflow-x-visible ">
+      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left font-base md:px-20 md:overflow-x-visible ">
         <img
           src={"blob-1.svg"}
           alt="Submission was successful"
@@ -170,7 +167,7 @@ export default function Home() {
         {/* {sortedSubmissions !== "" && <div className="w-64 h-48 bg-black"></div>} */}
         {!submitted ? (
           <>
-            <h1 className="z-10 text-3xl font-normal pt-28 text-start">
+            <h1 className="z-10 text-3xl font-semibold pt-28 text-start">
               Thank you for completing your recording
             </h1>
 
@@ -338,31 +335,27 @@ export default function Home() {
                         <tr>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
                             Reviewer:
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
                             Reviewee:
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
                             Subject:
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
-                            <span className="hidden md:block">
-                              {" "}
-                              Session Link:{" "}
-                            </span>
-                            <span className="block md:hidden"> Link: </span>
+                            Link
                           </th>
                         </tr>
                       </thead>

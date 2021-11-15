@@ -6,6 +6,9 @@ module.exports = {
     extend: {
       colors: {
         base: '#2A84EE'
+      },
+      fontFamily: {
+        base: ['Museo Sans Rounded']
       }
     }
   },
