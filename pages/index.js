@@ -3,9 +3,6 @@ import Head from "next/head";
 
 import Navbar from "../components/Navbar";
 
-
-import Navbar from '../components/Navbar'
-
 export default function Home() {
   const [submitted, setSubmitted] = useState();
   const [showAdvanced, setShowAdvanced] = useState(true);
@@ -138,10 +135,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center min-h-screen">
+    <div className="flex flex-col justify-center min-h-screen ">
       <Head>
         <title>Free Online Tutoring — Schoolhouse</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon.ico" />
         <meta
           name="description"
           content="Schoolhouse.world is a free tutoring platform on which anyone can receive live help online. Founded by Sal Khan. Join our welcoming community!"
@@ -156,7 +153,7 @@ export default function Home() {
         ></meta>
       </Head>
       <Navbar> </Navbar>
-      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left md:px-20 md:overflow-x-visible ">
+      <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left font-base md:px-20 md:overflow-x-visible ">
         <img
           src={"blob-1.svg"}
           alt="Submission was successful"
@@ -170,7 +167,7 @@ export default function Home() {
         {/* {sortedSubmissions !== "" && <div className="w-64 h-48 bg-black"></div>} */}
         {!submitted ? (
           <>
-            <h1 className="z-10 text-3xl font-normal pt-28 text-start">
+            <h1 className="z-10 text-3xl font-semibold pt-28 text-start">
               Thank you for completing your recording
             </h1>
 
@@ -274,10 +271,11 @@ export default function Home() {
                 type="button"
                 className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
                 onClick={() => clearInputs()}
+                aria-label="clear inputs"
               >
                 Clear
               </button>
-              <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+              <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="submit">
                 Submit
               </button>
             </div>
@@ -288,10 +286,11 @@ export default function Home() {
             <button
               type="button"
               className="justify-end w-48 px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+              aria-label="email me"
             >
               <a href={"#email-me"}>Email me</a>
             </button>
-            <button className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+            <button className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="open link">
               <a href={partnerLink}> Open Link </a>
             </button>{" "}
           </div>
@@ -301,7 +300,7 @@ export default function Home() {
           <h1 className="z-10 font-normal text-gray-500 text-md text-start ">
             Advanced
           </h1>
-          <button onClick={() => setShowAdvanced(!showAdvanced)}>
+          <button onClick={() => setShowAdvanced(!showAdvanced)} aria-label="show advanced">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={
@@ -338,31 +337,27 @@ export default function Home() {
                         <tr>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
                             Reviewer:
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
                             Reviewee:
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
                             Subject:
                           </th>
                           <th
                             scope="col"
-                            className="px-6 py-3 text-xl font-semibold tracking-wider text-left text-gray-700"
+                            className="px-5 py-3 text-lg font-semibold tracking-wider text-left text-gray-700"
                           >
-                            <span className="hidden md:block">
-                              {" "}
-                              Session Link:{" "}
-                            </span>
-                            <span className="block md:hidden"> Link: </span>
+                            Link:
                           </th>
                         </tr>
                       </thead>
@@ -437,11 +432,13 @@ export default function Home() {
                 <button
                   type="button"
                   className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
-                  onClick={() => clearInputs()}
+                  onClick={() => clearInputs()
+                  }
+                  aria-label="clear inputs"
                 >
                   Clear
                 </button>
-                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7">
+                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="submit">
                   Submit
                 </button>
               </div>
