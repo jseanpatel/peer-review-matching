@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [submitted, setSubmitted] = useState();
-  const [showAdvanced, setShowAdvanced] = useState(true);
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [email, setEmail] = useState("");
   const [unitTopic, setUnitTopic] = useState("");
   const [sessionLink, setSessionLink] = useState("");
@@ -155,12 +155,12 @@ export default function Home() {
       <Navbar> </Navbar>
       <main className="relative flex flex-col justify-center flex-1 w-full max-w-5xl px-6 pb-32 mx-auto overflow-x-hidden text-left font-base md:px-20 md:overflow-x-visible ">
         <img
-          src={"blob-1.svg"}
+          src={"blob.svg"}
           alt="Submission was successful"
           className="absolute top-0 z-0 rotate-90 -left-24 top-32 w-96 h-96"
         />
         <img
-          src={"blob-1.svg"}
+          src={"blob.svg"}
           alt="Submission  was successful"
           className="absolute z-0 rotate-180 top-96 -right-24 w-96 h-96"
         />
@@ -192,13 +192,12 @@ export default function Home() {
               As the final step in the certification process, we’d like to ask
               you to review the submission of one other candidate.{" "}
               {partnerLink === "" ? (
-                <>Unfortunately, no submission is currently available for you to
-                review. We will contact you soon with your assignment.</>
-              ) : (
                 <>
-                  {" "}
-                  Please access your candidate assignment below.
+                  Unfortunately, no submission is currently available for you to
+                  review. We will contact you soon with your assignment.
                 </>
+              ) : (
+                <> Please access your candidate assignment below.</>
               )}
             </h2>
           </>
@@ -269,28 +268,34 @@ export default function Home() {
             <div className="flex justify-end w-full">
               <button
                 type="button"
-                className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
+                className="justify-end px-8 py-0 text-lg font-semibold text-gray-400 bg-white border-2 border-gray-400 rounded hover:opacity-75"
                 onClick={() => clearInputs()}
                 aria-label="clear inputs"
               >
                 Clear
               </button>
-              <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="submit">
+              <button
+                className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7"
+                aria-label="submit"
+              >
                 Submit
               </button>
             </div>
           </form>
         )}
-        {(submitted && partnerLink) && (
+        {submitted && partnerLink && (
           <div className="z-10 flex flex-row justify-center mx-4 mt-10">
             <button
               type="button"
-              className="justify-end w-48 px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+              className="justify-end w-48 px-8 py-0 text-lg font-semibold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
               aria-label="email me"
             >
               <a href={"#email-me"}>Email me</a>
             </button>
-            <button className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="open link">
+            <button
+              className="justify-end w-48 py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7"
+              aria-label="open link"
+            >
               <a href={partnerLink}> Open Link </a>
             </button>{" "}
           </div>
@@ -300,7 +305,10 @@ export default function Home() {
           <h1 className="z-10 font-normal text-gray-500 text-md text-start ">
             Advanced
           </h1>
-          <button onClick={() => setShowAdvanced(!showAdvanced)} aria-label="show advanced">
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            aria-label="show advanced"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={
@@ -321,14 +329,14 @@ export default function Home() {
         </div>
         {showAdvanced && (
           <>
-            <h2 className="z-10 mt-3 text-gray-500 text-md">
+            <h2 className="z-10 mt-4 text-gray-500 text-md">
               This application was architected to optimize the user experience
               for the candidate. In order to capture the complete functionality
               of the application, advanced options are available below that
               would not ordinarily be available to the candidate.
             </h2>
 
-            <div className="z-10 flex flex-col mt-8 border-4 border-gray-300 rounded rounded-lg">
+            <div className="z-10 flex flex-col mt-4 border-4 border-gray-300 rounded rounded-lg">
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                   <div className="overflow-hidden border-gray-200 sm:rounded-lg">
@@ -369,8 +377,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <h2 className="z-10 mt-4 text-gray-500 text-md">
+              The below submission form allows a schoolhouse employee to
+              manually add unlimitted submissions outside of the candidates'
+              view.
+            </h2>
             <form
-              className="z-10 w-full max-w-5xl p-10 mt-10 bg-white border border-4 border-gray-300 rounded rounded-lg"
+              className="z-10 w-full max-w-5xl p-10 mt-4 bg-white border border-4 border-gray-300 rounded rounded-lg"
               onSubmit={submitForm}
             >
               <div className="flex flex-wrap mb-6 -mx-3">
@@ -431,14 +444,16 @@ export default function Home() {
               <div className="flex justify-end w-full">
                 <button
                   type="button"
-                  className="justify-end px-8 py-0 text-lg font-bold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
-                  onClick={() => clearInputs()
-                  }
+                  className="justify-end px-8 py-0 text-lg font-semibold text-gray-400 bg-white border border-2 border-gray-400 rounded hover:opacity-75"
+                  onClick={() => clearInputs()}
                   aria-label="clear inputs"
                 >
                   Clear
                 </button>
-                <button className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7" aria-label="submit">
+                <button
+                  className="justify-end py-0 ml-6 text-lg font-semibold text-white rounded bg-base hover:bg-blue-700 px-7"
+                  aria-label="submit"
+                >
                   Submit
                 </button>
               </div>

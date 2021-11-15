@@ -6,9 +6,7 @@ interface Props {}
 
 const Navbar = ({}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
-  const [caretOpen, setCaretOpen] = useState(false);
   return (
     <>
       <nav className="sticky top-0 z-50 bg-white">
@@ -135,7 +133,6 @@ const Navbar = ({}: Props) => {
             </Link>
             <div className="w-full h-[0.15rem] bg-gray-300"></div>
 
-
             <Link href="#live-help">
               <a className="block px-4 py-2 mt-1 text-2xl font-semibold text-gray-600 transition duration-150 ease-in-out rounded-lg hover:text-white focus:outline-none focus:text-white">
                 {" "}
@@ -143,7 +140,6 @@ const Navbar = ({}: Props) => {
               </a>
             </Link>
             <div className="w-full h-[0.15rem] bg-gray-300"></div>
-
 
             <Link href="#about">
               <a className="block px-4 py-2 mt-1 text-2xl font-semibold text-gray-600 transition duration-150 ease-in-out bg-white rounded-lg hover:opacity-75 focus:outline-none focus:opacity-75">
@@ -153,7 +149,6 @@ const Navbar = ({}: Props) => {
             </Link>
             <div className="w-full h-[0.15rem] bg-gray-300"></div>
 
-
             <Link href="#faq">
               <a className="block px-4 py-2 mt-1 text-2xl font-semibold text-gray-600 transition duration-150 ease-in-out bg-white rounded-lg hover:opacity-75 focus:outline-none focus:opacity-75">
                 {" "}
@@ -161,7 +156,6 @@ const Navbar = ({}: Props) => {
               </a>
             </Link>
             <div className="w-full h-[0.15rem] bg-gray-300"></div>
-
           </div>
         </div>
         <div className="w-full h-[0.15rem] bg-gray-300"></div>
