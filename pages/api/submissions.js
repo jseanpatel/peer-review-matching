@@ -50,7 +50,6 @@ let submissions = [
 ];
 
 // use even and odd for the pairings
-
 let sortedSubmissions = {
   Algebra: [
     {

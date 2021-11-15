@@ -139,7 +139,7 @@ const Navbar = ({}: Props) => {
             <Link href="#live-help">
               <a className="block px-4 py-2 mt-1 text-2xl font-semibold text-gray-600 transition duration-150 ease-in-out rounded-lg hover:text-white focus:outline-none focus:text-white">
                 {" "}
-                Live help{" "}
+                Live Help{" "}
               </a>
             </Link>
             <div className="w-full h-[0.15rem] bg-gray-300"></div>
