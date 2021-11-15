@@ -157,7 +157,14 @@ function shuffle(arr) {
 }
 
 /**
- * @param {Object} arr An array containing the items.
+ * Returns a shuffled version of Subject objects
+ *
+ * @remarks
+ * This method utilizes the shuffle method from above
+ *
+ * @param sortedSubs - The input Subject to be shuffled
+ * @returns - A shuffled version of Subject objects
+ *
  */
 function shuffleSubjects(arr) {
   for (const subject in arr) {
@@ -167,7 +174,17 @@ function shuffleSubjects(arr) {
   return arr;
 }
 
-function getStichedSubmissions() {
+/**
+ * Returns a single dimensional array of the shuffled submissions
+ *
+ * @remarks
+ * This method "flattens" the sortedSubmissions object into a 1 dimensional submissions array
+ *
+ * @param sortedSubs: - The input object of Subjects to be sorted
+ * @returns  - A single dimensional array of shuffled submissions
+ *
+ */
+function getStichedSubmissions(sortedSubs: Subject) {
   shuffleSubjects(sortedSubmissions);
 
   let temp = [];
