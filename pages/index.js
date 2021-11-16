@@ -379,7 +379,7 @@ export default function Home() {
             </div>
             <h2 className="z-10 mt-4 text-gray-500 text-md">
               The below submission form allows a schoolhouse.world employee to
-              manually add unlimitted submissions outside of the candidates'
+              manually add unlimitted submissions outside of the candidate's
               view.
             </h2>
             <form
