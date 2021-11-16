@@ -1,4 +1,15 @@
-let submissions = [
+type Submission = {
+  uid: number;
+  email: string;
+  unitTopic: string;
+  sessionLink: string;
+};
+
+type Subject = {
+  [subjectName: string]: Submission[];
+};
+
+let submissions: Submission[] = [
   {
     uid: 1,
     unitTopic: "Algebra",
@@ -49,7 +60,7 @@ let submissions = [
   },
 ];
 
-let sortedSubmissions = {
+let sortedSubmissions: Subject = {
   Algebra: [
     {
       uid: 1,
@@ -112,43 +123,47 @@ export default function handler(req, res) {
   if (req.method === "POST") {
     const { email, unitTopic, sessionLink } = req.body;
 
-    const reqUID = submissions.length + 1;
+    // give each submission a unique ID
+    const reqUID: number = submissions.length + 1;
 
-    const reqSubmission = {
+    const reqSubmission: Submission = {
       uid: reqUID,
       email: email,
       unitTopic: unitTopic,
       sessionLink: sessionLink,
     };
 
-    submissions.push(reqSubmission)
-    const reqUnitTopic = unitTopic;
-   
+    submissions.push(reqSubmission);
 
-    // add new subject property to sortedSubmissions if subject does not exist
+    const reqUnitTopic: string = unitTopic;
+
+    // add new subject property to sortedSubmissions if subject does not already exist
     if (!sortedSubmissions[reqUnitTopic]) {
       sortedSubmissions[reqUnitTopic] = [];
-      sortedSubmissions[reqUID] = reqUID;
     }
 
     sortedSubmissions[reqUnitTopic].push(reqSubmission);
 
-    let temp = getStichedSubmissions();
+    // shuffle and collapse the submissions in sortedSubmissions
+    let temp = getStichedSubmissions(sortedSubmissions);
 
     res.status(200).json({ submissions: temp });
   } else if (req.method === "GET") {
-    let temp = getStichedSubmissions();
-
+    let temp = getStichedSubmissions(sortedSubmissions);
     res.status(200).json({ submissions: temp });
   } else {
-    // TODO: add request handling
+    res.status(500);
   }
 }
 
 /**
- * @param {Array} arr An array containing the items.
+ * Returns a randomly shuffled version of the input array
+ *
+ * @param arr - The input array of submission objects
+ * @returns - The randomly shuffled version of the input array
+ *
  */
-function shuffle(arr) {
+function shuffle(arr: Submission[]) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -166,12 +181,11 @@ function shuffle(arr) {
  * @returns - A shuffled version of Subject objects
  *
  */
-function shuffleSubjects(arr) {
-  for (const subject in arr) {
-    arr[subject] = shuffle(arr[subject]);
+function shuffleSubjects(sortedSubs: Subject) {
+  for (const subject in sortedSubs) {
+    sortedSubs[subject] = shuffle(sortedSubs[subject]);
   }
-
-  return arr;
+  return sortedSubs;
 }
 
 /**
@@ -187,23 +201,24 @@ function shuffleSubjects(arr) {
 function getStichedSubmissions(sortedSubs: Subject) {
   shuffleSubjects(sortedSubmissions);
 
-  let temp = [];
+  let temp: Submission[] = [];
 
-  const fillerSubmission = {
-    uid: "",
+  const fillerSubmission: Submission = {
+    uid: -1,
     unitTopic: "",
     email: "",
     sessionLink: "",
   };
 
   // stich the ordered arrays back together
-  for (let subject in sortedSubmissions) {
-    let subjectCount = sortedSubmissions[subject].length;
+  for (let subject in sortedSubs) {
+    let subjectCount: number = sortedSubs[subject].length;
     for (let i = 0; i < subjectCount; i++) {
-      temp.push(sortedSubmissions[subject][i]);
+      temp.push(sortedSubs[subject][i]);
     }
   }
 
+  // add a dummy submission at the end of every submissions array to mark end
   temp.push(fillerSubmission);
 
   return temp;
