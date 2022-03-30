@@ -9,7 +9,7 @@
 
 ## Description
 
-At schoolhouse.world, candidate tutors are required to submit screencasts of their exam sessions. After this submission, candidate tutors review submissions of their peers in the same subject. This project is intended to emulate a candidate tutors' experience in attaining certification through this process.
+At schoolhouse.world, candidate tutors are required to submit screencasts of their exam sessions. After this submission, candidate tutors review submissions of their peers in the same subject. This project is intended to emulate a candidate tutor's experience in attaining certification through this process.
 
 **For more detailed documentation and commentary, please visit the [project wiki](https://github.com/jseanpatel/peer-review-matching/wiki).**
 
